@@ -2,9 +2,9 @@ package com.company.lab.Commands;
 
 import com.company.lab.StackCalc;
 
-public class CommandFactory {
+public class CommandFactory { // Фабрика
 
-    public enum CommandType {
+    public enum CommandType { // Перечисление всех возможных команд
         POP,
         PUSH,
         PRINT,
@@ -15,9 +15,11 @@ public class CommandFactory {
         DIV("/"),
         SQRT,
         COMMENT("#");
+
         private String value;
+
         CommandType(){}
-        CommandType(String value)
+        CommandType(String value) // Конструктор для "символьных" элементов перечисления
         {
             this.value = value;
         }
@@ -28,15 +30,15 @@ public class CommandFactory {
             return this.value; // Чтобы использовать символы (выдаст '+' вместо SUMM)
         }
 
-        public static CommandType getEnum(String value) {
-            for(CommandType v : values())
-                if(v.toString().equalsIgnoreCase(value)) return v;
-            throw new IllegalArgumentException();
+        public static CommandType getEnum(String value) { // Метод для поучения нужного CommandType
+            for(CommandType v : values()) // Проходим по всем
+                if(v.toString().equalsIgnoreCase(value)) return v; // И сравниваем
+            throw new IllegalArgumentException("Неизвестный аргумент");
         }
 
     }
 
-    public Command createCommand(CommandType type, StackCalc stack, String val){
+    public Command createCommand(CommandType type, StackCalc stack, String val){ // Создание нужной команды
         switch (type){
             case POP: return new PopCommand(stack);
             case PUSH: return new PushCommand(stack, val);

@@ -4,14 +4,18 @@ DEFINE a 5
 DEFINE b 6
 DEFINE c 7
 PUSH a
+PRINT
 PUSH b
+PRINT
 # random comment
 PUSH 2
 POP
 PUSH c
 PRINT
 POP
+PRINT
 +
+PRINT
 SQRT
 PRINT
 # end

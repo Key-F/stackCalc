@@ -2,7 +2,6 @@ package com.company.lab;
 
 import java.util.EmptyStackException;
 import java.util.HashMap;
-import java.util.Scanner;
 import java.util.Stack;
 
 public class StackCalc {
@@ -12,7 +11,7 @@ public class StackCalc {
         stack = new Stack<>();
         params = new HashMap<>();
     }
-    public static StackCalc getInstance(){
+    static StackCalc getInstance(){
         if(instance == null){ // Проверка, что объекта нет
             instance = new StackCalc();
         }
@@ -20,11 +19,11 @@ public class StackCalc {
     }
     // end Singleton
 
-    private Stack<Double> stack;
-    private HashMap<String, Double> params;
+    private Stack<Double> stack; // Сам стек
+    private HashMap<String, Double> params; // Тут хранятся параметры
 
 
-    public void POP(){
+    public void POP(){ // Снять число со стека
         try{
         getInstance().stack.pop();
         }
@@ -33,49 +32,85 @@ public class StackCalc {
         }
 
     }
-    public void PUSH(String arg){
-        if (params.get(arg)!= null)
-            getInstance().stack.push(params.get(arg));
-        else
-            getInstance().stack.push(Double.parseDouble(arg));
-    }
-    public void PRINT(){
-        System.out.println(getInstance().stack.peek());
-    }
-
-    public void DEFINE(String param, String val){
-        params.put(param, Double.parseDouble(val));
+    public void PUSH(String arg) { // Положить чисто на стек
+        if (params.get(arg) != null)  // Если есть параметр с таким именем
+            getInstance().stack.push(params.get(arg)); // Кладем на стек значение параметра
+        else // Параметра нет, пришло число
+            try {
+                getInstance().stack.push(Double.parseDouble(arg)); // Пытаемся положить число
+            } catch (NumberFormatException e) {
+                System.out.println("Некорректное значение");
+            }
     }
 
-    public void SUMM(){
-        Double first = getInstance().stack.pop();
-        Double second = getInstance().stack.pop();
-        getInstance().stack.push(first + second);
+    public void PRINT(){ // Выводим верхний элемент стека (сам элемент не удаляем)
+        try {
+            System.out.println(getInstance().stack.peek());
+        }
+        catch (EmptyStackException e) {
+            System.out.println("Стек пуст");
+        }
     }
 
-    public void MINUS(){
-        Double first = getInstance().stack.pop();
-        Double second = getInstance().stack.pop();
-        getInstance().stack.push(first - second);
+    public void DEFINE(String param, String val){ // Задаем значение параметра
+        try {
+            params.put(param, Double.parseDouble(val));
+        }
+        catch (NumberFormatException e) {
+            System.out.println("Некорректное значение параметра");
+        }
     }
 
-    public void MULTI(){
-        Double first = getInstance().stack.pop();
-        Double second = getInstance().stack.pop();
-        getInstance().stack.push(first * second);
+    public void SUMM(){ // Сумма
+        try {
+            Double first = getInstance().stack.pop();
+            Double second = getInstance().stack.pop();
+            getInstance().stack.push(first + second);
+        }
+        catch (EmptyStackException e) {
+            System.out.println("Стек пуст / Не хватает элементов для действия");
+        }
     }
 
-    public void DIV(){
-        Double first = getInstance().stack.pop();
-        Double second = getInstance().stack.pop();
-        getInstance().stack.push(first / second);
+    public void MINUS(){ // Вычитание
+        try {
+            Double first = getInstance().stack.pop();
+            Double second = getInstance().stack.pop();
+            getInstance().stack.push(first - second);
+        }
+        catch (EmptyStackException e) {
+            System.out.println("Стек пуст / Не хватает элементов для действия");
+        }
     }
 
-    public void SQRT(){
-        getInstance().stack.push(Math.sqrt(getInstance().stack.pop()));
+    public void MULTI(){ // Умножение
+        try {
+            Double first = getInstance().stack.pop();
+            Double second = getInstance().stack.pop();
+            getInstance().stack.push(first * second);
+        }
+        catch (EmptyStackException e) {
+            System.out.println("Стек пуст / Не хватает элементов для действия");
+        }
     }
 
+    public void DIV(){ // Деление
+        try {
+            Double first = getInstance().stack.pop();
+            Double second = getInstance().stack.pop();
+            getInstance().stack.push(first / second);
+        }
+        catch (EmptyStackException e) {
+            System.out.println("Стек пуст / Не хватает элементов для действия");
+        }
+    }
 
-
-
+    public void SQRT(){ // Получение квадратного корня
+        try {
+            getInstance().stack.push(Math.sqrt(getInstance().stack.pop()));
+        }
+        catch (EmptyStackException e) {
+            System.out.println("Стек пуст");
+        }
+    }
 }

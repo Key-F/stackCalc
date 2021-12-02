@@ -5,14 +5,13 @@ import com.company.lab.Commands.CommandFactory;
 
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
 
     public static void main(String[] args) {
         FileReader fileReader;
-        if (args.length != 0) {
+        if (args.length != 0) { // аргументом подается путь до файла
             System.out.println(args[0]);
             try {
                 fileReader = new FileReader(args[0]);
@@ -25,9 +24,8 @@ public class Main {
                 read(in);
             }
             in.close();
-
         }
-        else {
+        else { // Если аргумента нет, то читаем из консоли
             Scanner scanner = new Scanner(System.in);
             while (true) {
                 read(scanner);
@@ -36,14 +34,14 @@ public class Main {
     }
 
     public static void read(Scanner in){
-        String commandLine = in.nextLine();
-        Scanner lineScanner = new Scanner(commandLine);
-        String type = lineScanner.next();
-        String value = commandLine.replace(type, "");
-        value = value.trim();
-        CommandFactory factory = new CommandFactory();
-        Command command = factory.createCommand(CommandFactory.CommandType.getEnum(type), StackCalc.getInstance(), value);
-        command.execute();
+        String commandLine = in.nextLine(); // берем строку
+        Scanner lineScanner = new Scanner(commandLine); // для нее свой сканер
+        String type = lineScanner.next(); // получаем тип
+        String value = commandLine.replace(type, ""); // value - остальная часть строки
+        value = value.trim(); // убираем лишние пробелы
+        CommandFactory factory = new CommandFactory(); // Создаем объект фабрики
+        Command command = factory.createCommand(CommandFactory.CommandType.getEnum(type), StackCalc.getInstance(), value); // вызываем создатель команд
+        command.execute(); // выполняем команду
     }
 
 }

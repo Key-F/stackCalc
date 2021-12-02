@@ -1,5 +1,6 @@
 package com.company.lab;
 
+import java.util.EmptyStackException;
 import java.util.HashMap;
 import java.util.Scanner;
 import java.util.Stack;
@@ -7,7 +8,10 @@ import java.util.Stack;
 public class StackCalc {
     // begin Singleton
     private static StackCalc instance;
-    private StackCalc(){} // Нет доступа извне к конструктору
+    private StackCalc(){ // Нет доступа извне к конструктору
+        stack = new Stack<>();
+        params = new HashMap<>();
+    }
     public static StackCalc getInstance(){
         if(instance == null){ // Проверка, что объекта нет
             instance = new StackCalc();
@@ -16,21 +20,27 @@ public class StackCalc {
     }
     // end Singleton
 
-    Stack<Double> stack;
+    private Stack<Double> stack;
     private HashMap<String, Double> params;
 
-    void comment(){}
+
     public void POP(){
-        stack.pop();
+        try{
+        getInstance().stack.pop();
+        }
+        catch (EmptyStackException e) {
+            System.out.println("Стек пуст");
+        }
+
     }
     public void PUSH(String arg){
         if (params.get(arg)!= null)
-            stack.push(params.get(arg));
+            getInstance().stack.push(params.get(arg));
         else
-            stack.push(Double.parseDouble(arg));
+            getInstance().stack.push(Double.parseDouble(arg));
     }
     public void PRINT(){
-        System.out.println(stack.peek());
+        System.out.println(getInstance().stack.peek());
     }
 
     public void DEFINE(String param, String val){
@@ -38,31 +48,31 @@ public class StackCalc {
     }
 
     public void SUMM(){
-        Double first = stack.pop();
-        Double second = stack.pop();
-        stack.push(first + second);
+        Double first = getInstance().stack.pop();
+        Double second = getInstance().stack.pop();
+        getInstance().stack.push(first + second);
     }
 
     public void MINUS(){
-        Double first = stack.pop();
-        Double second = stack.pop();
-        stack.push(first - second);
+        Double first = getInstance().stack.pop();
+        Double second = getInstance().stack.pop();
+        getInstance().stack.push(first - second);
     }
 
     public void MULTI(){
-        Double first = stack.pop();
-        Double second = stack.pop();
-        stack.push(first * second);
+        Double first = getInstance().stack.pop();
+        Double second = getInstance().stack.pop();
+        getInstance().stack.push(first * second);
     }
 
     public void DIV(){
-        Double first = stack.pop();
-        Double second = stack.pop();
-        stack.push(first / second);
+        Double first = getInstance().stack.pop();
+        Double second = getInstance().stack.pop();
+        getInstance().stack.push(first / second);
     }
 
     public void SQRT(){
-        stack.push(Math.sqrt(stack.pop()));
+        getInstance().stack.push(Math.sqrt(getInstance().stack.pop()));
     }
 
 

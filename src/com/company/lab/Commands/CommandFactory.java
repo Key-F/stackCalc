@@ -3,7 +3,8 @@ package com.company.lab.Commands;
 import com.company.lab.StackCalc;
 
 public class CommandFactory {
-    enum CommandType {
+
+    public enum CommandType {
         POP,
         PUSH,
         PRINT,
@@ -12,16 +13,25 @@ public class CommandFactory {
         MINUS("-"),
         MULTI("*"),
         DIV("/"),
-        SQRT;
+        SQRT,
+        COMMENT("#");
         private String value;
         CommandType(){}
         CommandType(String value)
         {
             this.value = value;
         }
+
         public String toString()
         {
+            if (this.value == null) return this.name(); // Если value нет, то выдаем name
             return this.value; // Чтобы использовать символы (выдаст '+' вместо SUMM)
+        }
+
+        public static CommandType getEnum(String value) {
+            for(CommandType v : values())
+                if(v.toString().equalsIgnoreCase(value)) return v;
+            throw new IllegalArgumentException();
         }
 
     }
@@ -37,6 +47,7 @@ public class CommandFactory {
             case MULTI: return new MultiCommand(stack);
             case DIV: return new DivCommand(stack);
             case SQRT: return new SqrtCommand(stack);
+            case COMMENT: return new CommentCommand(stack);
             default: return null;
         }
     }

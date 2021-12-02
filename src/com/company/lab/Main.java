@@ -1,5 +1,8 @@
 package com.company.lab;
 
+import com.company.lab.Commands.Command;
+import com.company.lab.Commands.CommandFactory;
+
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -9,7 +12,7 @@ public class Main {
 
     public static void main(String[] args) {
         FileReader fileReader;
-        if (args[0] != null) {
+        if (args.length != 0) {
             System.out.println(args[0]);
             try {
                 fileReader = new FileReader(args[0]);
@@ -18,25 +21,29 @@ public class Main {
                 return;
             }
             Scanner in = new Scanner(fileReader);
-            //in.useDelimiter(System.getProperty("line.separator"));
             while (in.hasNextLine()) { // Построчно читаем из файла и парсим нужные значения
-                String commandLine = in.nextLine();
+                read(in);
             }
-
-            System.out.println(args[0]);
+            in.close();
 
         }
         else {
             Scanner scanner = new Scanner(System.in);
-
             while (true) {
-
-                String myLine = scanner.nextLine();
-                System.out.println(myLine);
-                //
+                read(scanner);
             }
         }
-
-	// write your code here
     }
+
+    public static void read(Scanner in){
+        String commandLine = in.nextLine();
+        Scanner lineScanner = new Scanner(commandLine);
+        String type = lineScanner.next();
+        String value = commandLine.replace(type, "");
+        value = value.trim();
+        CommandFactory factory = new CommandFactory();
+        Command command = factory.createCommand(CommandFactory.CommandType.getEnum(type), StackCalc.getInstance(), value);
+        command.execute();
+    }
+
 }

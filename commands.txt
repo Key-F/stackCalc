@@ -1,10 +1,11 @@
 # start
+POP
 DEFINE a 5
 DEFINE b 6
 DEFINE c 7
-# comment ignore me
 PUSH a
 PUSH b
+# random comment
 PUSH 2
 POP
 PUSH c

@@ -1,0 +1,16 @@
+# start
+DEFINE a 5
+DEFINE b 6
+DEFINE c 7
+# comment ignore me
+PUSH a
+PUSH b
+PUSH 2
+POP
+PUSH c
+PRINT
+POP
++
+SQRT
+PRINT
+# end

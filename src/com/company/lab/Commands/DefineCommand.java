@@ -1,15 +1,18 @@
 package com.company.lab.Commands;
 
-import com.company.lab.StackCalc;
 
+import java.util.HashMap;
 import java.util.Scanner;
+import java.util.Stack;
 
 public class DefineCommand implements Command {
-    private StackCalc stack;
+    private Stack stack;
     private String param;
     private String val;
+    private HashMap<String, Double> params; // Тут хранятся параметры
 
-    public DefineCommand(StackCalc stack, String val) {
+    public DefineCommand(Stack stack, String val, HashMap params) {
+        this.params = params;
         Scanner in = new Scanner(val);
         this.stack = stack;
         this.param = in.next();
@@ -19,6 +22,11 @@ public class DefineCommand implements Command {
 
     @Override
     public void execute() {
-        stack.DEFINE(param, val);
+        try {
+            params.put(param, Double.parseDouble(val));
+        }
+        catch (NumberFormatException e) {
+            System.out.println("Некорректное значение параметра");
+        }
     }
 }

@@ -2,15 +2,23 @@ package com.company.lab.Commands;
 
 import com.company.lab.StackCalc;
 
-public class PopCommand implements Command {
-    private StackCalc stack;
+import java.util.EmptyStackException;
+import java.util.Stack;
 
-    public PopCommand(StackCalc stack) {
+public class PopCommand implements Command {
+    private Stack stack;
+
+    public PopCommand(Stack stack) {
         this.stack = stack;
     }
 
     @Override
     public void execute() {
-        stack.POP();
+        try{
+            stack.pop();
+        }
+        catch (EmptyStackException e) {
+            System.out.println("Стек пуст");
+        }
     }
 }

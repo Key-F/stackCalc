@@ -1,11 +1,12 @@
 package com.company.lab.Commands;
 
-import com.company.lab.StackCalc;
+
+import java.util.Stack;
 
 public class CommentCommand implements Command {
-    private StackCalc stack;
+    private Stack stack;
 
-    public CommentCommand(StackCalc stack) {
+    public CommentCommand(Stack stack) {
         this.stack = stack;
     }
 

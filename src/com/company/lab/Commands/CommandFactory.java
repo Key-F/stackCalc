@@ -2,6 +2,9 @@ package com.company.lab.Commands;
 
 import com.company.lab.StackCalc;
 
+import java.util.HashMap;
+import java.util.Stack;
+
 public class CommandFactory { // Фабрика
 
     public enum CommandType { // Перечисление всех возможных команд
@@ -38,12 +41,12 @@ public class CommandFactory { // Фабрика
 
     }
 
-    public Command createCommand(CommandType type, StackCalc stack, String val){ // Создание нужной команды
+    public Command createCommand(CommandType type, Stack stack, String val, HashMap params){ // Создание нужной команды
         switch (type){
             case POP: return new PopCommand(stack);
-            case PUSH: return new PushCommand(stack, val);
+            case PUSH: return new PushCommand(stack, val, params);
             case PRINT: return new PrintCommand(stack);
-            case DEFINE: return new DefineCommand(stack, val);
+            case DEFINE: return new DefineCommand(stack, val, params);
             case SUMM: return new SummCommand(stack);
             case MINUS: return new MinusCommand(stack);
             case MULTI: return new MultiCommand(stack);

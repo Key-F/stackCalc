@@ -2,15 +2,23 @@ package com.company.lab.Commands;
 
 import com.company.lab.StackCalc;
 
-public class PrintCommand implements Command {
-    private StackCalc stack;
+import java.util.EmptyStackException;
+import java.util.Stack;
 
-    public PrintCommand(StackCalc stack) {
+public class PrintCommand implements Command {
+    private Stack stack;
+
+    public PrintCommand(Stack stack) {
         this.stack = stack;
     }
 
     @Override
     public void execute() {
-        stack.PRINT();
+        try {
+            System.out.println(stack.peek());
+        }
+        catch (EmptyStackException e) {
+            System.out.println("Стек пуст");
+        }
     }
 }

@@ -2,15 +2,25 @@ package com.company.lab.Commands;
 
 import com.company.lab.StackCalc;
 
-public class MinusCommand implements Command {
-    private StackCalc stack;
+import java.util.EmptyStackException;
+import java.util.Stack;
 
-    public MinusCommand(StackCalc stack) {
+public class MinusCommand implements Command {
+    private Stack<Double> stack;
+
+    public MinusCommand(Stack stack) {
         this.stack = stack;
     }
 
     @Override
     public void execute() {
-        stack.MINUS();
+        try {
+            Double first = stack.pop();
+            Double second = stack.pop();
+            stack.push(first - second);
+        }
+        catch (EmptyStackException e) {
+            System.out.println("Стек пуст / Не хватает элементов для действия");
+        }
     }
 }
